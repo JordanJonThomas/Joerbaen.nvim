@@ -100,8 +100,8 @@ return {
         config = function()
             vim.o.hidden = true
 
-            vim.keymap.set("n", "<leader>ot",  "<C-w>v:terminal<CR>", { desc = '[O]pen [T]erminal' })  
-            vim.keymap.set("n", "<leader>oth", "<C-w>s:terminal<CR>", { desc = '[O]pen [T]erminal [H]orizontally' }) 
+            vim.keymap.set("n", "<leader>ot",  "<C-w>v:terminal<CR>", { desc = '[O]pen [T]erminal' })
+            vim.keymap.set("n", "<leader>oth", "<C-w>s:terminal<CR>", { desc = '[O]pen [T]erminal [H]orizontally' })
         end,
     },
 
@@ -111,9 +111,9 @@ return {
         lazy = false,
         ---@type snacks.Config
         opts = {
+            -- Good as is pluginss
             animate = { enabled = true },
             bigfile = { enabled = true },
-            dashboard = { enabled = true },
             gh = { enabled = true },
             indent = { enabled = false },
             input = { enabled = true },
@@ -126,10 +126,54 @@ return {
             scroll = { enabled = true },
             terminal = { enabled = false },
             words = { enabled = true },
+            picker = { enabled = true, ui_select = true },
+            rename = { enabled = true },
+
+            -- Custom dashboard
+            dashboard = {
+                enabled = true,
+                preset = {
+                    pick = nil,
+                    keys = {
+                        { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
+                        { icon = " ", key = "e", desc = "Explore Files", action = ":Neotree" },
+                        { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+                        { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+                        { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+                        { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
+                        { icon = " ", key = "s", desc = "Restore Session", section = "session" },
+                        { icon = "󰒲 ", key = "L", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
+                        { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+                    },
+                    header = [[
+      ███                              █████                                                              ███                 
+     ░░░                              ░░███                                                              ░░░                  
+     █████  ██████   ██████  ████████  ░███████   ██████    ██████  ████████      ████████   █████ █████ ████  █████████████  
+    ░░███  ███░░███ ███░░███░░███░░███ ░███░░███ ░░░░░███  ███░░███░░███░░███    ░░███░░███ ░░███ ░░███ ░░███ ░░███░░███░░███ 
+     ░███ ░███ ░███░███████  ░███ ░░░  ░███ ░███  ███████ ░███████  ░███ ░███     ░███ ░███  ░███  ░███  ░███  ░███ ░███ ░███ 
+     ░███ ░███ ░███░███░░░   ░███      ░███ ░███ ███░░███ ░███░░░   ░███ ░███     ░███ ░███  ░░███ ███   ░███  ░███ ░███ ░███ 
+     ░███ ░░██████ ░░██████  █████     ████████ ░░████████░░██████  ████ █████ ██ ████ █████  ░░█████    █████ █████░███ █████
+     ░███  ░░░░░░   ░░░░░░  ░░░░░     ░░░░░░░░   ░░░░░░░░  ░░░░░░  ░░░░ ░░░░░ ░░ ░░░░ ░░░░░    ░░░░░    ░░░░░ ░░░░░ ░░░ ░░░░░ 
+ ███ ░███                                                                                                                     
+░░██████                                                                                                                      
+ ░░░░░░                                                                                                                       ]],
+                },
+            },
+
         },
         keys = {
             { "<leader>gi", function() Snacks.picker.gh_issue() end, desc = "[G]ithub [I]ssues" },
         }
+    },
+
+    {
+        "folke/persistence.nvim",
+        event = "VimEnter", 
+        opts = {},
+        keys = {
+            vim.keymap.set("n", "<leader>ps", function() require("persistence").select() end, {desc='[P]ersist [S]elect'}),
+            vim.keymap.set("n", "<leader>pl", function() require("persistence").load({ last = true }) end, {desc = '[P]ersist [L]ast session'}),
+        },
     },
 
     {

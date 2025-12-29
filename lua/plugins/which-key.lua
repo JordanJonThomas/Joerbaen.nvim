@@ -8,6 +8,7 @@ return {
             {'<leader>g', group = '[G]it' },
             {'<leader>c', group = '[C]ode' },
             {'<leader>o', group = '[O]pen' },
+            {'<leader>p', group = '[P]ersist' },
             {'<leader>t', group = '[T]oggle' },
             {'<leader>d', group = '[D]ocument' },
             {'<leader>w', group = '[W]orkspace' },

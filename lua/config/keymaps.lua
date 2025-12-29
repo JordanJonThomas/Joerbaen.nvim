@@ -8,3 +8,4 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>') -- no highlight on esc
 vim.keymap.set('n', 'riw', 'viwpyiw') -- quick replace in word
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, {desc = 'Open [Q]uickfix list'}) -- quick fix list
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+
