@@ -1,5 +1,14 @@
 -- Generally useful plugins with little configure required
 return {
+    -- Provides progress info in bottom corner
+    {
+        'j-hui/fidget.nvim',
+        opts = {
+            notification = {
+                window = { winblend = 0 },
+            }
+        }
+    },
 
     -- Highlight TODO comments
     {
@@ -33,7 +42,7 @@ return {
     -- Autopairs
     {
         'windwp/nvim-autopairs',
-        event = "InsertEnter",
+        event = 'InsertEnter',
         opts = {
             check_ts = true
         },
@@ -45,7 +54,7 @@ return {
 
             -- eruby pairs for rails
             npairs.add_rules({
-                Rule('<%', ' %>', {"eruby"})
+                Rule('<%', ' %>', {'eruby'})
                     :use_regex(false)
                     :set_end_pair_length(3)
             })
@@ -62,7 +71,7 @@ return {
     {
         'Bekaboo/deadcolumn.nvim',
         init = function()
-            vim.opt.colorcolumn = "100" -- Dead column position
+            vim.opt.colorcolumn = '100' -- Dead column position
         end,
         opts = {
             scope = 'line',
@@ -73,7 +82,7 @@ return {
                 end
 
                 -- Always display in insert
-                if mode == "i" then
+                if mode == 'i' then
                     return true
                 else
                     -- Any other mode, Get length of current line
@@ -86,7 +95,7 @@ return {
                     -- 0 means no render at all.
                     local percent_of_column = 1
                     ok = false
-                    if ok and line_width >= tonumber((vim.wo.colorcolumn:match("%d+") or 0) * percent_of_column) then
+                    if ok and line_width >= tonumber((vim.wo.colorcolumn:match('%d+') or 0) * percent_of_column) then
                         return true
                     end
                 end
@@ -96,17 +105,46 @@ return {
 
     -- nested terminal
     {
-        's1n7ax/nvim-terminal',
-        config = function()
-            vim.o.hidden = true
+        'akinsho/toggleterm.nvim',
+        dependencies = 'folke/which-key.nvim',
+        version = "*",
+        opts = {
+            size = function(term)
+                -- vertical size
+                if term.direction == 'vertical' then
+                    return vim.o.columns * 0.4
+                end
 
-            vim.keymap.set("n", "<leader>ot",  "<C-w>v:terminal<CR>", { desc = '[O]pen [T]erminal' })
-            vim.keymap.set("n", "<leader>oth", "<C-w>s:terminal<CR>", { desc = '[O]pen [T]erminal [H]orizontally' })
-        end,
+                -- default size
+                return 20
+            end
+        },
+        keys = function()
+            local Terminal = require('toggleterm.terminal').Terminal
+            local wk = require('which-key')
+
+            -- terminal applications to be used
+            local lazygit = Terminal:new({
+                cmd = 'lazygit',
+                hidden = true,
+                direction = 'float',
+            })
+
+            wk.add({"<leader>ot", group = '[O]pen [T]erminal'})
+            local hz = Terminal:new({ hidden = true, direction = 'horizontal' })
+            local vt = Terminal:new({ hidden = true, direction = 'vertical'})
+
+            return {
+                {'<leader>ol', function() lazygit:toggle() end, desc = '[O]pen [L]azygit'},
+                {'<leader>otv', function() vt:toggle() end, desc = '[O]pen [T]erminal [V]ertical'},
+                {'<leader>oth', function() hz:toggle() end, desc = '[O]pen [T]erminal [H]orizontal'}
+            }
+        end
+
     },
 
     {
-        "folke/snacks.nvim",
+        'folke/snacks.nvim',
         priority = 1000,
         lazy = false,
         ---@type snacks.Config
@@ -118,8 +156,8 @@ return {
             indent = { enabled = false },
             input = { enabled = true },
             image = { enabled = true },
-            lazygit = { enabled = true },
-            notify = { enabled = true },
+            lazygit = { enabled = false },
+            notify = { enabled = false },
             quickfile = { enabled = true },
             scope = { enabled = true },
             statuscolumn = { enabled = false },
@@ -135,15 +173,15 @@ return {
                 preset = {
                     pick = nil,
                     keys = {
-                        { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
-                        { icon = " ", key = "e", desc = "Explore Files", action = ":Neotree" },
-                        { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
-                        { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
-                        { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
-                        { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
-                        { icon = " ", key = "s", desc = "Restore Session", section = "session" },
-                        { icon = "󰒲 ", key = "L", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
-                        { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+                        { icon = ' ', key = 'f', desc = 'Find File', action = ':lua Snacks.dashboard.pick("files")' },
+                        { icon = ' ', key = 'e', desc = 'Explore Files', action = ':Neotree' },
+                        { icon = ' ', key = 'n', desc = 'New File', action = ':ene | startinsert' },
+                        { icon = ' ', key = 'g', desc = 'Find Text', action = ':lua Snacks.dashboard.pick("live_grep")' },
+                        { icon = ' ', key = 'r', desc = 'Recent Files', action = ':lua Snacks.dashboard.pick("oldfiles")' },
+                        { icon = ' ', key = 'c', desc = 'Config', action = ':lua Snacks.dashboard.pick("files", {cwd = vim.fn.stdpath("config")})' },
+                        { icon = ' ', key = 's', desc = 'Restore Session', section = 'session' },
+                        { icon = '󰒲 ', key = 'L', desc = 'Lazy', action = ':Lazy', enabled = package.loaded.lazy ~= nil },
+                        { icon = ' ', key = 'q', desc = 'Quit', action = ':qa' },
                     },
                     header = [[
       ███                              █████                                                              ███                 
@@ -158,21 +196,23 @@ return {
 ░░██████                                                                                                                      
  ░░░░░░                                                                                                                       ]],
                 },
-            },
+            }
 
         },
         keys = {
-            { "<leader>gi", function() Snacks.picker.gh_issue() end, desc = "[G]ithub [I]ssues" },
+            { '<leader>gi', function() Snacks.picker.gh_issue() end, desc = '[G]ithub [I]ssues' },
+            -- { '<leader>ol', function() Snacks.lazygit.open() end, desc = '[O]pen [L]azygit' },
+            { '<leader>od', function() Snacks.dashboard() end, desc = '[O]pen [D]ashboard' },
         }
     },
 
     {
-        "folke/persistence.nvim",
-        event = "VimEnter", 
+        'folke/persistence.nvim',
+        event = 'VimEnter',
         opts = {},
         keys = {
-            vim.keymap.set("n", "<leader>ps", function() require("persistence").select() end, {desc='[P]ersist [S]elect'}),
-            vim.keymap.set("n", "<leader>pl", function() require("persistence").load({ last = true }) end, {desc = '[P]ersist [L]ast session'}),
+            vim.keymap.set('n', '<leader>ps', function() require('persistence').select() end, {desc='[P]ersist [S]elect'}),
+            vim.keymap.set('n', '<leader>pl', function() require('persistence').load({ last = true }) end, {desc = '[P]ersist [L]ast session'}),
         },
     },
 

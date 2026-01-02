@@ -16,8 +16,14 @@ return {
         end
 
         -- file search
-        map("<leader>sf", builtin.find_files, { desc = "[S]earch [F]iles" })
-        map("<leader>sg", builtin.live_grep, { desc = "[S]earch [G]rep" })
+        map('<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+        map('<leader>sg', builtin.live_grep, { desc = '[S]earch [G]rep' })
+        map('<leader>sc', function ()
+            builtin.find_files({
+                cwd = vim.fn.stdpath('config'),
+                prompt_title = 'Neovim Config',
+            })
+        end , { desc = '[S]earch [C]onfig' })
 
     end,
 }

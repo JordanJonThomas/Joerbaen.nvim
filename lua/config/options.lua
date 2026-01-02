@@ -19,7 +19,7 @@ vim.opt.timeoutlen = 300 -- qol for which-key
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.list = true
-vim.opt.listchars = { trail = '·', nbsp = '␣' } -- trailing dot is nice        
+vim.opt.listchars = { trail = '·', nbsp = '␣' } -- trailing dot is nice
 vim.opt.icm = 'nosplit' -- substitution preview in new window
 vim.opt.scrolloff = 10
 vim.opt.tabstop = 4 -- fix tabs
@@ -28,11 +28,21 @@ vim.opt.softtabstop = 4
 vim.opt.expandtab = true
 vim.g.loaded_netrwPlugin = 1 -- disable netrw because it SUCKS
 vim.g.loaded_retrw = 1
+vim.opt.cmdheight = 0 -- hide command window when not entering commands
+
+-- More visual window seperators 
+vim.api.nvim_create_autocmd('ColorScheme', {
+  pattern = '*',
+  callback = function()
+    vim.api.nvim_set_hl(0, 'WinSeparator', { fg = '#202024', bg = 'NONE', bold = true })
+  end,
+})
+vim.opt.fillchars = 'vert:┃,horiz:━,horizup:┻,horizdown:┳,vertleft:┫,vertright:┣,verthoriz:╋'
 
 -- check OS and set default shell
 local os = vim.loop.os_uname().sysname;
 if os == 'Windows_NT' then
-  vim.o.shell = "powershell.exe"
+  vim.o.shell = "pwsh.exe"
   vim.o.shellxquote = ''
   vim.o.shellcmdflag = '-NoLogo -ExecutionPolicy RemoteSigned -Command '
   vim.o.shellquote = ''
