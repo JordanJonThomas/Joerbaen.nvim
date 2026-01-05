@@ -1,6 +1,6 @@
 -- Generally useful plugins with little configure required
 return {
-    -- Provides progress info in bottom corner
+    -- provides progress info in bottom corner (lsp primarily)
     {
         'j-hui/fidget.nvim',
         opts = {
@@ -10,7 +10,7 @@ return {
         }
     },
 
-    -- Highlight TODO comments
+    -- highlight TODO comments 
     {
         'folke/todo-comments.nvim',
         event = 'VimEnter',
@@ -39,7 +39,7 @@ return {
         end
     },
 
-    -- Autopairs
+    -- autopairs
     {
         'windwp/nvim-autopairs',
         event = 'InsertEnter',
@@ -67,7 +67,7 @@ return {
         end,
     },
 
-    -- Dead column 
+    -- dead column 
     {
         'Bekaboo/deadcolumn.nvim',
         init = function()
@@ -143,6 +143,7 @@ return {
 
     },
 
+    -- snacks :)
     {
         'folke/snacks.nvim',
         priority = 1000,
@@ -206,6 +207,7 @@ return {
         }
     },
 
+    -- sessions
     {
         'folke/persistence.nvim',
         event = 'VimEnter',
@@ -216,6 +218,7 @@ return {
         },
     },
 
+    -- markdown
     {
         'MeanderingProgrammer/render-markdown.nvim',
         dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' },

@@ -12,6 +12,8 @@ return {
             {'<leader>t', group = '[T]oggle' },
             {'<leader>d', group = '[D]ocument' },
             {'<leader>w', group = '[W]orkspace' },
+            {'<leader>f', group = '[F]old' },
+            {'<leader>fr', group = '[F]old [R]ecursive' },
             {'<leader>e', hidden = true },
         },
         -- exclude mappings without description
