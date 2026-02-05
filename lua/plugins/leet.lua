@@ -7,6 +7,7 @@ local launch_arg = 'leet';
 
 return {
     'kawre/leetcode.nvim',
+    cmd = { "Leet" },
     build = ':TSUpdate html',
     lazy = launch_arg ~= vim.fn.argv(0, -1),
     dependencies = {
