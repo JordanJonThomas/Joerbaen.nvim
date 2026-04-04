@@ -43,6 +43,41 @@ return {
             opts.filesystem.window.mappings =
             vim.tbl_extend("force", opts.filesystem.window.mappings or {}, {
                 ["\\"] = "close_window",
+
+                -- store directory in zoxide db and change cwd
+                ["z"] = {
+                    function(state)
+                        local node = state.tree:get_node()
+                        if node and node.type == "directory" then
+                            local path = node:get_id()
+                            -- Update zoxide internal list
+                            vim.system({"zoxide", "add", path}, {}, function() end)
+                            -- Change nvim cwd
+                            vim.cmd("cd " .. path)
+                            -- Open neotree at the new directory
+                            vim.cmd("Neotree filesystem reveal dir=" .. path)
+                            print("Zoxide updated and changed cwd to: " .. path)
+                        else
+                            print("Zoxide navigation only works for directories")
+                        end
+                    end,
+                    desc = "Zoxide add and navigate to directory"
+                },
+
+                -- store directory in zoxide db
+                ["Z"] = {
+                    function(state)
+                        local node = state.tree:get_node()
+                        if node and node.type == "directory" then
+                            local path = node:get_id()
+                            -- Update zoxide internal list
+                            vim.system({"zoxide", "add", path}, {}, function() end)
+                        else
+                            print("Zoxide only works on directories")
+                        end
+                    end,
+                    desc = "Zoxide add"
+                },
             })
 
             -- Integrate snack rename
