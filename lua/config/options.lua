@@ -41,6 +41,11 @@ vim.api.nvim_create_autocmd('ColorScheme', { -- this overrides the default color
 })
 vim.opt.fillchars = 'vert:┃,horiz:━,horizup:┻,horizdown:┳,vertleft:┫,vertright:┣,verthoriz:╋'
 
+-- prefer nushell if found
+if vim.fn.executable('nu') == 1 then
+    vim.opt.shell = 'nu'
+end
+
 -- check OS and set default shell
 local os = vim.loop.os_uname().sysname;
 if os == 'Windows_NT' then

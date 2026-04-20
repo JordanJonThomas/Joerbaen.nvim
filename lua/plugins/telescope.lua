@@ -17,6 +17,7 @@ return {
 
         -- file search
         map('<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+        map('<leader>sb', builtin.buffers, { desc = '[S]earch [B]uffers' })
         map('<leader>sg', builtin.live_grep, { desc = '[S]earch [G]rep' })
         map('<leader>sc', function ()
             builtin.find_files({
