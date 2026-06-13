@@ -6,9 +6,13 @@ return {
         lazy = false,
         build = ':TSUpdate',
         opts = {
-            ensure_installed = { 'c', 'rust', 'lua', 'luadoc', 'markdown'},
+            ensure_installed = { 'nu', 'c', 'rust', 'lua', 'luadoc', 'markdown'},
+            highlight = { enable = true },
             auto_install = true,
-        }
+        },
+        config = function(_, opts)
+            require('nvim-treesitter.configs').setup(opts)
+        end,
     },
 
     -- adwaita is nice
