@@ -84,7 +84,7 @@ return {
                 ['<C-a>'] = {'show', 'fallback'}, -- c-space cannot be called in powershell
                 ['<C-Space>'] = {'show', 'fallback'},
                 --['<Esc>'] = {'hide', 'fallback'},
-                ['<CR>'] = {'accept', 'fallback'},
+                ['<CR>'] = {'fallback'},
             },
 
         },
