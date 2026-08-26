@@ -11,12 +11,16 @@ return {
             })
 
             -- lsp servers to install automatically
-            vim.lsp.enable({
-                'rust_analyzer',
-                'lua_ls',
-                'ts_ls',
-                'omnisharp'
-            })
+            local language_servers = {
+                    'rust_analyzer',
+                    'lua_ls',
+                    'ts_ls',
+                    'omnisharp',
+            }
+
+            -- Install & enable
+            require('mason-lspconfig').setup({ ensure_installed = language_servers, })
+            vim.lsp.enable(language_servers)
 
             -- map keys on lsp attach
             local builtin = require('telescope.builtin') -- telescopalicious
