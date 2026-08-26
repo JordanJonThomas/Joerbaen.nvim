@@ -14,7 +14,8 @@ return {
             vim.lsp.enable({
                 'rust_analyzer',
                 'lua_ls',
-                'ts_ls'
+                'ts_ls',
+                'omnisharp'
             })
 
             -- map keys on lsp attach
